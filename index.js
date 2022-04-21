@@ -17,6 +17,14 @@ const users = [
     
 ]
 
+app.get('/user/:id',(req,res) => {
+    const userId = req.params.id
+    const findUser = users.find(u => {
+        return u.id === parseInt(userId)
+    })
+    res.send(findUser)
+})
+
 app.post('/user',(req,res) => {
     const userInfo = req.body
     userInfo.id = users.length + 1
@@ -26,10 +34,10 @@ app.post('/user',(req,res) => {
 })
 
 app.get('/users',(req,res) => {
-    const user = req.query
+    const user = req.query.name.toLocaleLowerCase()
     console.log(user)
-    if(user?.name){
-        const searchUser = users.filter(u => u.name.toLowerCase().includes(user?.name))
+    if(user){
+        const searchUser = users.filter(u => u.name.toLowerCase().includes(user))
         res.send(searchUser.length ? searchUser : "not found")
     }else{
         res.send(users)
