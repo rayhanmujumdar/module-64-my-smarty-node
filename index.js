@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 5001
+const port = process.env.PORT || 5001
 const cors = require('cors')
 app.use(cors())
 const bodyParser = require('body-parser')
@@ -34,10 +34,9 @@ app.post('/user',(req,res) => {
 })
 
 app.get('/users',(req,res) => {
-    const user = req.query.name.toLocaleLowerCase()
-    console.log(user)
+    const user = req.query.name
     if(user){
-        const searchUser = users.filter(u => u.name.toLowerCase().includes(user))
+        const searchUser = users.filter(u => u.name.toLowerCase().includes(user.toLowerCase()))
         res.send(searchUser.length ? searchUser : "not found")
     }else{
         res.send(users)
